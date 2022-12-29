@@ -16,28 +16,35 @@ export default function App() {
     setShowContacts(prevState => !prevState);
   }
 
-  const [list,setList] = useState(contacts);
+  const [list,setList] = useState(contacts.sort(compareNames));
   const [showForm, setShowForm] = useState(false);
   const toggleForm = (()=>{
     setShowForm(prevState => !prevState)
   })
 
-  const sort = (list)=>{
-    const sortedList = [...list].sort(compareNames)
-    setList(sortedList);
-  }
 
+  const addContact = (name, phone) => {
+    const correctPhone = phone.slice(0, 3) + "-" + phone.slice(3, 6) + "-" + phone.slice(6, 9);
+    if(name != "" && phone != "")
+    {
+        setShowForm((prevState)=>!prevState)
+        setList([...list, {
+            name: name,
+            phone: correctPhone,
+        }].sort(compareNames));
+    }
+  }
 
 
   if (showForm)
   {
     return (
-      <AddContactForm setList = {setList} list={list} setShowForm={setShowForm}></AddContactForm>
+      <AddContactForm addContact={addContact} setShowForm={setShowForm}></AddContactForm>
     )
   }
   else{
     return (
-      <View>
+      <View style={styles.page}>
         <View style={styles.button}>
           <Button title='toggle contacts' onPress={toggleContacts} />
         </View>
@@ -45,9 +52,6 @@ export default function App() {
           <Button title="Add contact" onPress={toggleForm} />
         </View>
 
-        {showContacts && <View style={styles.button}><Button title='sort' onPress={()=>{
-          sort(list);
-        }} /></View>}
         {showContacts && <ContactsList data={list}/>}
         
       </View>
@@ -64,5 +68,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 100,
     marginRight: 100
+  },
+  page:
+  {
+    flex: 1,
+    justifyContent: "center",
+    padding: 20
   }
 });

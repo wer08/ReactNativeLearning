@@ -1,8 +1,14 @@
-import { ListViewBase, SectionList, Text } from "react-native";
+import { ListViewBase, SectionList, StyleSheet, Text } from "react-native";
 import Contact from "./Contact";
 
 
 const ContactsList = ({data}) => {
+    const styles = StyleSheet.create({
+        header:{
+            borderBottomColor: 'black',
+            borderBottomWidth: 1
+        }
+    })
     const getSections = (data) => {
         if (data.length === 0)
         {
@@ -21,7 +27,7 @@ const ContactsList = ({data}) => {
             },{})
         )
     } 
-    const renderSectionHeader = ({section}) => <Text>{section.title}</Text>
+    const renderSectionHeader = ({section}) => <Text style={styles.header}>{section.title}</Text>
     return ( 
         
         <SectionList

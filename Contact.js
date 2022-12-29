@@ -6,8 +6,7 @@ const Contact = (props) => {
     const styles = StyleSheet.create({
         contact: {
             padding: 10,
-            borderStyle: 'solid',
-            borderTopWidth: 1
+
 
         }
     })

@@ -16,7 +16,7 @@ export const compareNames = (contact1, contact2) => ((contact1.name > contact2.n
 
 //add keys to bnased on index
 const addKeys = (val, key) => ({key, ...val});
-const NUM_CONTACTS = 50;
+const NUM_CONTACTS = 20;
 //Create an Array of length NUM_CONTACTS and alphatize name
 export default Array.from({length: NUM_CONTACTS},createContact).map(addKeys)
 
