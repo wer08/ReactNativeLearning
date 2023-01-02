@@ -8,26 +8,21 @@ import Contact from './Contact';
 import { compareNames } from './contacts';
 import ContactsList from './ContactsList';
 import AddContactForm from './AddContactForm';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+
 
 
 export default function App() {
-  const [showContacts, setShowContacts] = useState(false);
-  const toggleContacts = () => {
-    setShowContacts(prevState => !prevState);
-  }
-
   const [list,setList] = useState(contacts.sort(compareNames));
-  const [showForm, setShowForm] = useState(false);
-  const toggleForm = (()=>{
-    setShowForm(prevState => !prevState)
-  })
 
 
-  const addContact = (name, phone) => {
+
+  const addContact = (name, phone, navigation) => {
     const correctPhone = phone.slice(0, 3) + "-" + phone.slice(3, 6) + "-" + phone.slice(6, 9);
     if(name != "" && phone != "")
     {
-        setShowForm((prevState)=>!prevState)
         setList([...list, {
             name: name,
             phone: correctPhone,
@@ -35,30 +30,49 @@ export default function App() {
     }
   }
 
-
-  if (showForm)
-  {
-    return (
-      <AddContactForm addContact={addContact} setShowForm={setShowForm}></AddContactForm>
+  const HomeScreen = ({navigation})=>{
+    return(
+    <View style={styles.page}>
+      <View style={styles.button}>
+        <Button title='toggle contacts' onPress={()=>{
+          navigation.navigate('CONTACTS')
+        }} />
+      </View>
+      <View style={styles.button}>
+        <Button title="Add contact" onPress={()=>{
+          navigation.navigate('ADD CONTACT')
+        }} />
+      </View>
+    </View>
     )
   }
-  else{
-    return (
-      <View style={styles.page}>
-        <View style={styles.button}>
-          <Button title='toggle contacts' onPress={toggleContacts} />
-        </View>
-        <View style={styles.button}>
-          <Button title="Add contact" onPress={toggleForm} />
-        </View>
 
-        {showContacts && <ContactsList data={list}/>}
-        
-      </View>
-  
-    );
+  const ContactScreen = ()=>{
+    return(
+      <ContactsList data={list}/>
+    )
   }
 
+  const FormScreen = ({navigation})=>{
+    return(
+      <AddContactForm addContact={addContact} navigation={navigation}></AddContactForm>
+    )
+
+  }
+  
+  const Stack = createNativeStackNavigator();
+
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name='HOME' component={HomeScreen} />
+          <Stack.Screen name="CONTACTS" component={ContactScreen} />
+          <Stack.Screen name="ADD CONTACT" component={FormScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+
+  
+    );
 }
 
 const styles = StyleSheet.create({

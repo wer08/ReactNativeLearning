@@ -2,7 +2,7 @@ import { Button, StyleSheet, TextInput, View } from "react-native";
 import PropTypes from 'prop-types'
 import { useDebugValue, useEffect, useState } from "react";
 
-const AddContactForm = ({addContact, setShowForm}) => {
+const AddContactForm = ({addContact, navigation}) => {
 
     const styles = StyleSheet.create({
         input: {
@@ -22,8 +22,10 @@ const AddContactForm = ({addContact, setShowForm}) => {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [disabled, setDisabled] = useState(true);
-    const pressHandler = ()=>addContact(name,phone);
-    const cancelHandler = () => setShowForm(false);
+    const pressHandler = ()=>{
+        addContact(name,phone);
+        navigation.navigate('HOME')
+    }
 
     const handleName = name =>{
         if(name.length > 0)
@@ -57,7 +59,7 @@ const AddContactForm = ({addContact, setShowForm}) => {
             <TextInput style = {styles.input} value={name} onChangeText={handleName} autoFocus={true} clearButtonMode="always" placeholder="Name"/>
             <TextInput style = {styles.input} value={phone} onChangeText={handlePhone} clearButtonMode="always" placeholder="phone" keyboardType="numeric"/>
             <Button title="Add" onPress={pressHandler} disabled={disabled}/>
-            <Button title="Cancel" onPress={cancelHandler} />
+
         </View>
      );
 }
