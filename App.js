@@ -20,7 +20,6 @@ export default function App() {
 
   useEffect(()=>{
     Api().then(contacts => setList(contacts))
-    Api().then(contacts => console.log(contacts))
   },[])
 
 

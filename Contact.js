@@ -1,10 +1,21 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableHighlight, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableHighlight, TouchableOpacity, Image } from "react-native";
 const Contact = ({name,phone,navigation,email, image}) => {
 
     const styles = StyleSheet.create({
         contact: {
             padding: 10,
+            borderBottomWidth: 0.5,
+            borderBottomColor: 'black',
+            marginLeft: 20,
+            marginRight: 20
+        },
+        picture:{
+            width: 50,
+            height: 50,
+            margin: 5,
+            borderRadius: 50
+
         }
     })
     const showDetails = (navigation, name, phone, email, image)=> {
@@ -18,8 +29,9 @@ const Contact = ({name,phone,navigation,email, image}) => {
     return ( 
     <TouchableOpacity onPress={()=>showDetails(navigation, name, phone, email, image)}>
         <View style={styles.contact}>
+
+            <Image style ={styles.picture} source={{uri: image}} />
             <Text>{name}</Text>
-            <Text>{phone}</Text>
         </View>
     </TouchableOpacity>
 

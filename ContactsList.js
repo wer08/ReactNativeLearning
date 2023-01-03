@@ -6,7 +6,9 @@ const ContactsList = ({data,navigation}) => {
     const styles = StyleSheet.create({
         header:{
             borderBottomColor: 'black',
-            borderBottomWidth: 1
+            borderBottomWidth: 1,
+            paddingLeft: 7,
+            fontSize: 18
         }
     })
     const getSections = (data) => {
@@ -18,7 +20,9 @@ const ContactsList = ({data,navigation}) => {
             data.reduce((acc,contact)=>{
                 let firstLetter = contact.name[0];
                 if(!acc[firstLetter]){
-                    acc[firstLetter] = {title: firstLetter, data: [contact]}
+                    acc[firstLetter] = {
+                        title: firstLetter, data: [contact]
+                    }
                 }
                 else{
                     acc[firstLetter].data.push(contact);
@@ -34,6 +38,7 @@ const ContactsList = ({data,navigation}) => {
         renderItem ={obj => <Contact name={obj.item.name} phone={obj.item.phone} navigation={navigation} email={obj.item.email} image={obj.item.picture.medium}/>}
         renderSectionHeader = {renderSectionHeader}
         sections={getSections(data)}
+        keyExtractor={(obj, index) => obj + index}
         />
      );
 }
