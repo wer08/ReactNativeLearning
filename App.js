@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View, ScrollView, FlatList, SectionList } from 'react-native';
 import {Constants} from 'expo';
 
-import contacts from './contacts';
+import { Api } from './Api';
 import Contact from './Contact';
 import { compareNames } from './contacts';
 import ContactsList from './ContactsList';
 import AddContactForm from './AddContactForm';
+import Details from './Details';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -15,7 +16,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 
 export default function App() {
-  const [list,setList] = useState(contacts.sort(compareNames));
+  const [list,setList] = useState(null);
+
+  useEffect(()=>{
+    Api().then(contacts => setList(contacts))
+    Api().then(contacts => console.log(contacts))
+  },[])
 
 
 
@@ -38,18 +44,14 @@ export default function App() {
           navigation.navigate('CONTACTS')
         }} />
       </View>
-      <View style={styles.button}>
-        <Button title="Add contact" onPress={()=>{
-          navigation.navigate('ADD CONTACT')
-        }} />
-      </View>
+
     </View>
     )
   }
 
-  const ContactScreen = ()=>{
+  const ContactScreen = ({navigation})=>{
     return(
-      <ContactsList data={list}/>
+      <ContactsList data={list} navigation={navigation} />
     )
   }
 
@@ -57,7 +59,12 @@ export default function App() {
     return(
       <AddContactForm addContact={addContact} navigation={navigation}></AddContactForm>
     )
+  }
 
+  const DetailsScreen = ({route})=>{
+    return(
+      <Details route = {route}/>
+    )
   }
   
   const Stack = createNativeStackNavigator();
@@ -65,9 +72,25 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='HOME' component={HomeScreen} />
-          <Stack.Screen name="CONTACTS" component={ContactScreen} />
+          <Stack.Screen name='HOME' component={HomeScreen} options={({navigation}) => ({
+            headerRight:  ()=><Button title="Add contact" onPress={()=>{
+            navigation.navigate('ADD CONTACT')
+              }} />
+            }
+          )}/>
+          <Stack.Screen name="CONTACTS" component={ContactScreen} options={({navigation}) => ({
+            headerRight:  ()=><Button title="Add contact" onPress={()=>{
+            navigation.navigate('ADD CONTACT')
+              }} />
+          })}/>
           <Stack.Screen name="ADD CONTACT" component={FormScreen} />
+          <Stack.Screen name="Contact Details" component={DetailsScreen} options={({route})=>{
+            return (
+              {
+                title: route.params.name,
+              }
+            )
+          }}/>
         </Stack.Navigator>
       </NavigationContainer>
 

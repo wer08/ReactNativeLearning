@@ -2,7 +2,7 @@ import { ListViewBase, SectionList, StyleSheet, Text } from "react-native";
 import Contact from "./Contact";
 
 
-const ContactsList = ({data}) => {
+const ContactsList = ({data,navigation}) => {
     const styles = StyleSheet.create({
         header:{
             borderBottomColor: 'black',
@@ -31,7 +31,7 @@ const ContactsList = ({data}) => {
     return ( 
         
         <SectionList
-        renderItem ={obj => <Contact {...obj.item} />}
+        renderItem ={obj => <Contact name={obj.item.name} phone={obj.item.phone} navigation={navigation} email={obj.item.email} image={obj.item.picture.medium}/>}
         renderSectionHeader = {renderSectionHeader}
         sections={getSections(data)}
         />
