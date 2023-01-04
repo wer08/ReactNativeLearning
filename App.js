@@ -31,6 +31,9 @@ export default function App() {
         setList([...list, {
             name: name,
             phone: correctPhone,
+            picture:{
+              medium: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+            } 
         }].sort(compareNames));
     }
   }
@@ -40,7 +43,7 @@ export default function App() {
     <View style={styles.page}>
       <View style={styles.button}>
         <Button title='toggle contacts' onPress={()=>{
-          navigation.navigate('CONTACTS')
+          navigation.navigate('Contacts')
         }} />
       </View>
 
@@ -71,18 +74,18 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='HOME' component={HomeScreen} options={({navigation}) => ({
+          <Stack.Screen name='Home' component={HomeScreen} options={({navigation}) => ({
             headerRight:  ()=><Button title="Add contact" onPress={()=>{
-            navigation.navigate('ADD CONTACT')
+            navigation.navigate('Add Contact')
               }} />
             }
           )}/>
-          <Stack.Screen name="CONTACTS" component={ContactScreen} options={({navigation}) => ({
+          <Stack.Screen name="Contacts" component={ContactScreen} options={({navigation}) => ({
             headerRight:  ()=><Button title="Add contact" onPress={()=>{
-            navigation.navigate('ADD CONTACT')
+            navigation.navigate('Add Contact')
               }} />
           })}/>
-          <Stack.Screen name="ADD CONTACT" component={FormScreen} />
+          <Stack.Screen name="Add Contact" component={FormScreen} />
           <Stack.Screen name="Contact Details" component={DetailsScreen} options={({route})=>{
             return (
               {

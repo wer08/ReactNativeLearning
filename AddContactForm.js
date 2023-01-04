@@ -24,7 +24,7 @@ const AddContactForm = ({addContact, navigation}) => {
     const [disabled, setDisabled] = useState(true);
     const pressHandler = ()=>{
         addContact(name,phone);
-        navigation.navigate('HOME')
+        navigation.navigate('Home')
     }
 
     const handleName = name =>{

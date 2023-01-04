@@ -35,7 +35,7 @@ const ContactsList = ({data,navigation}) => {
     return ( 
         
         <SectionList
-        renderItem ={obj => <Contact name={obj.item.name} phone={obj.item.phone} navigation={navigation} email={obj.item.email} image={obj.item.picture.medium}/>}
+        renderItem ={obj => <Contact name={obj.item.name} phone={obj.item.phone} navigation={navigation} email={obj.item.email} image= {obj.item.picture.medium}/>}
         renderSectionHeader = {renderSectionHeader}
         sections={getSections(data)}
         keyExtractor={(obj, index) => obj + index}
